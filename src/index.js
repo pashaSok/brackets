@@ -1,29 +1,14 @@
- module.exports = function check(str, bracketsConfig) {
-    var arr = str.split(''),
-    bracketsStack = [],
-    openBrackets = ['{', '(', '['],
-	closeBrackets = ['}', ')', ']'],
-	indexOpenBrackets,indexCloseBrackets;
+module.exports = function check(str, bracketsConfig) {
+	let newArr = bracketsConfig.map((i) => {
+		return i.join('');
+	});
 
-	for(var j=0; j < arr.length; j++){
-		indexOpenBrackets = openBrackets.indexOf(arr[j]);
-
-		if(indexOpenBrackets != -1){
-			bracketsStack.push(indexOpenBrackets);
-		}
-
-		indexCloseBrackets = closeBrackets.indexOf(arr[j]);
-		if( indexCloseBrackets != -1){
-			indexOpenBrackets = bracketsStack.pop();
-			if(indexCloseBrackets != indexOpenBrackets){
-				return false;
-			}
+	for (let i = 0; i < newArr.length; i++) {
+		if (~str.indexOf(newArr[i])) {
+			str = str.replace((newArr[i]),'');
+			i = -1;
 		}
 	}
-
-	if(bracketsStack.length !=0){
-		return false;
-	}
-
-    return true;
+	if(str.length==0) return true;
+	else return false;
 }
